@@ -1,0 +1,22 @@
+#!/bin/sh
+exec tail -n +3 $0
+# This file provides an easy way to add custom menu entries.  Simply type the
+# menu entries you want to add after this comment.  Be careful not to change
+# the 'exec tail' line above.
+
+menuentry 'Ubuntu (RX5500XT VFIO)' --class ubuntu --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-8acb7788-e460-459e-b4ea-d595edf99661' {
+        recordfail
+        load_video
+        gfxmode $linux_gfx_mode
+        insmod gzio
+        if [ x$grub_platform = xxen ]; then insmod xzio; insmod lzopio; fi
+        insmod part_msdos
+        insmod ext2
+        if [ x$feature_platform_search_hint = xy ]; then
+          search --no-floppy --fs-uuid --set=root  8acb7788-e460-459e-b4ea-d595edf99661
+        else
+          search --no-floppy --fs-uuid --set=root 8acb7788-e460-459e-b4ea-d595edf99661
+        fi
+	linux   /boot/vmlinuz-5.7.10-050710-generic root=UUID=8acb7788-e460-459e-b4ea-d595edf99661 ro  quiet splash kvm_intel.nested=1 intel_iommu=on iommu=pt intremap=no_x2apic_optout vfio-pci.ids=10de:1e07,10de:1e04,10de:10f7,10de:1ad6,10de:1ad7,1002:7340,1002:ab38 nohz_full=2-9,16-23 rcu_nocbs=2-9,16-23 isolcpus=2-9,16-23 video=efifb:off $vt_handoff
+        initrd  /boot/initrd.img-5.7.10-050710-generic
+}
