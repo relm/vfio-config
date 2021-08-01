@@ -66,6 +66,7 @@
     <topology sockets='1' dies='1' cores='8' threads='2'/>
     <cache mode='passthrough'/>
     <feature policy='require' name='topoext'/>
+    <feature policy='disable' name='svm'/>
   </cpu>
   <clock offset='localtime'>
     <timer name='rtc' tickpolicy='catchup'/>

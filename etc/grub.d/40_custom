@@ -4,19 +4,19 @@ exec tail -n +3 $0
 # menu entries you want to add after this comment.  Be careful not to change
 # the 'exec tail' line above.
 
-menuentry 'Ubuntu (RX5500XT VFIO)' --class ubuntu --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-8acb7788-e460-459e-b4ea-d595edf99661' {
+menuentry 'Ubuntu (RTX 3080 Passthrough Only)' --class ubuntu --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-e6ee5cd4-6c5c-4e35-a46e-23ee27cb91ba' {
         recordfail
         load_video
         gfxmode $linux_gfx_mode
         insmod gzio
         if [ x$grub_platform = xxen ]; then insmod xzio; insmod lzopio; fi
-        insmod part_msdos
+        insmod part_gpt
         insmod ext2
         if [ x$feature_platform_search_hint = xy ]; then
-          search --no-floppy --fs-uuid --set=root  8acb7788-e460-459e-b4ea-d595edf99661
+          search --no-floppy --fs-uuid --set=root  e6ee5cd4-6c5c-4e35-a46e-23ee27cb91ba
         else
-          search --no-floppy --fs-uuid --set=root 8acb7788-e460-459e-b4ea-d595edf99661
+          search --no-floppy --fs-uuid --set=root e6ee5cd4-6c5c-4e35-a46e-23ee27cb91ba
         fi
-	linux   /boot/vmlinuz-5.7.10-050710-generic root=UUID=8acb7788-e460-459e-b4ea-d595edf99661 ro  quiet splash kvm_intel.nested=1 intel_iommu=on iommu=pt intremap=no_x2apic_optout vfio-pci.ids=10de:1e07,10de:1e04,10de:10f7,10de:1ad6,10de:1ad7,1002:7340,1002:ab38 nohz_full=2-9,16-23 rcu_nocbs=2-9,16-23 isolcpus=2-9,16-23 video=efifb:off $vt_handoff
-        initrd  /boot/initrd.img-5.7.10-050710-generic
+        linux   /boot/vmlinuz-5.11.0-25-generic root=UUID=e6ee5cd4-6c5c-4e35-a46e-23ee27cb91ba ro  quiet splash kvm.report_ignored_msrs=0 kvm.ignore_msrs=1 vfio-pci.ids=10de:2206,10de:1aef $vt_handoff
+        initrd  /boot/initrd.img-5.11.0-25-generic
 }
